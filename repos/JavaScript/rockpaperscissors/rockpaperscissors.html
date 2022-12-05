@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Rock Paper Scissors</title>
-    <script src = "rockpaperscissors.js"></script>
+<style>
+
+
+</style>
+ 
 </head>
 <body>
+<h1> Let's play RPS! First to 5 Wins</h1>
+<div class="intro"></div>
+
+
+<button class = "ROCK">Rock</button>
+<button class = "PAPER">Paper</button>
+<button class = "SCISSORS">Scissors</button>
+
+<div class="player" id="playerDiv">Your Selection is ...</div>
+<div class="computer" id="computerDiv">The Computer's Selection is...</div>
+<div class="results" id = "resultsDiv"> The Results are ...</div>
+<div class="scorecount" id = "scoreCountDiv">The Scores are ...</div>
+<div class="tourneyWinner" id = "tourneyWinnerDiv">Check here for the final score!</div>
 
 </body>
+    
+<script src = "rockpaperscissors.js"></script>
+<!--<script>
+    console.log("hello there!");
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            console.log(button.classList.value);
+        });
+    });
+
+</script> -->
+
 </html>

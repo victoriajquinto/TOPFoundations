@@ -1,87 +1,186 @@
 
 
-//player provides their selection
-function userPlay() {
-    playerInput  = prompt("Let's play Rock Paper Scissors! Please type your selection here: ")
-    //write code that accepts user input that is case insensitive
-    playerInputUpper = playerInput.toUpperCase()
-    console.log(`You selected ${playerInputUpper}.`)
-    return playerInputUpper;
-}
+/*
+HOW TO RANDOMLY SELECT OBJECT IN AN ARRAY (WITH CONSOLE.LOG SO YOU CAN SEE HOW EACH STEP WORKS)
+console.log(Selection.length) //step 1 selection.length = number of objects in array
+console.log(Math.random()) // step 2 math.random() randomly selects floating point number between 0 and 1
+console.log(Math.random()*Selection.length) // step 3 multiplies math.random() output and number of array objects 
+console.log(Math.floor(Math.random()*Selection.length)) // step 4 math.floor() rounds product down to nearest integer
+let computerSelection = Math.floor(Math.random()*Selection.length) // step 5 creates variable for this function
+console.log(computerSelection) // step 6 logs the number assigned to the object, starting at 0, i.e., first item is item #0, second item is item #1, etc.
+*/
+//declare cumulative player and computer scores in the global domain
+ let cumecompscore = 0;
+ let cumeplayerscore = 0;
+ let i;
 
-//HOW TO RANDOMLY SELECT OBJECT IN AN ARRAY (WITH CONSOLE.LOG SO YOU CAN SEE HOW EACH STEP WORKS)
-//console.log(Selection.length) //step 1 selection.length = number of objects in array
-//console.log(Math.random()) // step 2 math.random() randomly selects floating point number between 0 and 1
-//console.log(Math.random()*Selection.length) // step 3 multiplies math.random() output and number of array objects 
-//console.log(Math.floor(Math.random()*Selection.length)) // step 4 math.floor() rounds product down to nearest integer
-//let computerSelection = Math.floor(Math.random()*Selection.length) // step 5 creates variable for this function
-//console.log(computerSelection) // step 6 logs the number assigned to the object, starting at 0, i.e., first item is item #0, second item is item #1, etc.
-
-//computer randomly selects and option
-let Selection = ["rock", "paper", "scissors"] // randomly select option: rock, paper, scissors
+ //randomly selects computer's choice
+let Selection = ["ROCK", "PAPER", "SCISSORS"]; // randomly select option: rock, paper, scissors     
 function computerPlay() {
-    let rngvalue = Math.floor(Math.random()*Selection.length)
+    let rngvalue = Math.floor(Math.random()*Selection.length);
+    
     let computerChoice = (rngvalue == 0) ? "ROCK":
         (rngvalue == 1) ? "PAPER":
         (rngvalue == 2) ? "SCISSORS":
-        "Uhm...something went wrong, sorry!";
-    console.log(`Computer selected ${computerChoice}.`)
-    return computerChoice;
-    }   
+        "Uhm...something went wrong with the computer's choice, sorry!";
+        return computerChoice;
+    }
 
+let computerSelection; //creates variable to store computer's choice in the global domain
+
+//displays text for computer's selection on website
+function computerText() {
+    let computer = document.querySelector('.computer');
+        let computertext = document.createElement('p');
+    computertext.classList.toggle('computertext');
+    computertext.textContent =`Computer selected ${computerSelection}.`;
+    computer.appendChild(computertext);
+
+    let compTextEdit = document.getElementById('computerDiv');
+    compTextEdit.innerHTML = computertext.textContent;
+}
+
+let playerSelection; //creates variable to store player's choice in global domain
+
+//displays text for player's selection on website
+function playerText() {
+    let player = document.querySelector('.player');
+    let playermsg = document.createElement('p');
+        playermsg.classList.toggle('playermsg');
+        playermsg.textContent = `You selected ${playerSelection}.`
+        player.appendChild(playermsg);
+
+    let fieldNameElement = document.getElementById('playerDiv');
+    fieldNameElement.innerHTML = playermsg.textContent;
+}
+
+//player selection and computer selection are compared and a result message is displayed on website
 function playRound(localPlayerSelection, localComputerSelection) {
-    let playerOutcome// 0 = player loses, 1 = player wins, undefined = tie
+    let results = document.querySelector('.results');
+    let resultsmsg;
     if(localPlayerSelection == localComputerSelection) {
-        console.log("You tied!")
-        playerOutcome=.5
+        
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You tied!";
+
     } else if(localPlayerSelection=="PAPER" && localComputerSelection=="ROCK") { 
-        console.log("You win! Paper beats rock.")
-        playerOutcome=1
+        
+        cumeplayerscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You win! Paper beats rock.";
+
     } else if(localPlayerSelection=="SCISSORS" && localComputerSelection=="ROCK") {
-        console.log("You lose! Rock beats scissors.")
-        playerOutcome=0
+        
+        cumecompscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You lose! Rock beats scissors.";
+        
     } else if(localPlayerSelection=="ROCK" && localComputerSelection=="PAPER") {
-        console.log("You lose! Paper beats rock.")
-        playerOutcome=0
+        
+        cumecompscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You lose! Paper beats rock.";
+        
     } else if(localPlayerSelection=="SCISSORS" && localComputerSelection=="PAPER") {
-        console.log("You win! Scissors beat paper.")
-        playerOutcome=1
+        
+        cumeplayerscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You win! Scissors beat paper.";
+        
     } else if(localPlayerSelection=="ROCK" && localComputerSelection=="SCISSORS") {
-        console.log("You win! Rock beats scissors")
-        playerOutcome=1
+        
+        cumeplayerscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You win! Rock beats scissors";
+        
     }  else if(localPlayerSelection=="PAPER" && localComputerSelection=="SCISSORS") {
-        console.log("You lose! Scissors beat paper.")
-        playerOutcome=0
+        
+        cumecompscore++;
+        resultsmsg = document.createElement('p');
+        resultsmsg.classList.add('resultsmsg');
+        resultsmsg.textContent = "You lose! Scissors beat paper.";
+        
     } else {
-        console.log("You made a typo. Work on your typing!")
-        playerOutcome=.5
+        console.log("If you're seeing this message, Vicky needs to fix her playRound function.")
     }
-    return playerOutcome
+    results.appendChild(resultsmsg);
+    let resultsTextEdit = document.getElementById('resultsDiv');
+    resultsTextEdit.innerHTML = resultsmsg.textContent;
+
+    return[cumecompscore, cumeplayerscore];
 
 }
 
-function game() {
-    //round 1: each player throws rock, paper, or scissors. loop 5 times
+function scoreCounter(localcumeplayerscore, localcumecompscore) {
+    let finalScore = document.querySelector('.scorecount');
+        
+    let ScoreCounter = document.createElement('p');
+    ScoreCounter.classList.add('ScoreCounter');
+    ScoreCounter.textContent = `You have ${localcumeplayerscore} point(s). Computer has ${localcumecompscore} point(s).`;
     
-    let currentScore = 0 //create variable to store player's score
-    for (let i= 0; i < 5;i++){
-        console.log(`You are playing Round ${i+1}`)
-        //player makes their selection
-        let playerSelection = userPlay()
-        //computer makes their selection
-        let computerSelection = computerPlay()
-        //play the game and log game outcome
-        let roundScore = playRound(playerSelection, computerSelection)
-         //keep score for player. increment player's score through the rounds
-        currentScore = currentScore + roundScore
-        console.log(`You have won ${currentScore} out of ${i+1} games.`)
-        //if player wins 3+ games, log message saying player won
-    } 
-    if(currentScore >=3) {
-        console.log("You won the five rounds! Congratulations!")
-    } else {
-        console.log("You lost the five rounds. Sucks to suck, loser!")
-    }
-}
-game()
+    
 
+    finalScore.appendChild(ScoreCounter);
+    //finalScore.appendChild(computerScoreCounter);
+    
+    let ScoreCounterTextEdit = document.getElementById('scoreCountDiv');
+    ScoreCounterTextEdit.innerHTML =  ScoreCounter.textContent;
+    
+    
+    }
+    
+// creates event listeners for buttons for when buttons are clicked that calls playRoubd function
+     
+function userPlay(){
+    let buttons = document.querySelectorAll('button');
+    let i=0;
+    let tourneyWinnerMessage;
+    buttons.forEach(
+        (button) => {
+            button.addEventListener('click', () => {
+                playerSelection = button.classList.value; //create a new variable equal to the class value for the button
+        
+                //calls text display functions when player makes their selection
+                if(playerSelection !== undefined) {
+                    playerText();
+                    computerSelection = computerPlay();
+                    computerText();
+                }
+                        
+                //calls playround function
+                playRound(playerSelection, computerSelection);
+                scoreCounter(cumeplayerscore, cumecompscore);
+
+                i++;
+                console.log("i: ", i);
+                    if(cumeplayerscore == 5 || cumecompscore == 5) {
+                        if(cumeplayerscore > cumecompscore) {
+                            tourneyWinnerMessage = "You won the tournament! Congratulations!";
+                        } else if (cumeplayerscore < cumecompscore) {
+                            tourneyWinnerMessage = "You lost the tournament :(";
+                        } else {
+                            tourneyWinnerMessage = "You tied with the computer in the tournament. Yay?";
+                        }   
+                    }
+                
+                let tourneyWinner = document.querySelector('.tourneyWinner');
+                let tourneyWinnerText = document.createElement('p');
+                tourneyWinnerText.classList.add('tourneyWinnerText');
+                tourneyWinnerText.textContent = tourneyWinnerMessage;
+                tourneyWinner.appendChild(tourneyWinnerText);
+
+                let tourneyTextEdit = document.getElementById('tourneyWinnerDiv');
+                tourneyTextEdit.innerHTML = tourneyWinnerText.textContent;
+                
+                }
+            );
+        }
+    );
+}
+userPlay();
